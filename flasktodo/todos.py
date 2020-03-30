@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, redirect, render_template, request, url_for
 
 from . import db
 
@@ -9,6 +9,16 @@ bp = Blueprint("todos", __name__)
 def index():
     """View for home page which shows list of to-do items."""
 
+    cur = db.get_db().cursor()
+    cur.execute('SELECT * FROM todos')
+    todos = cur.fetchall()
+    cur.close()
+
+    return render_template("index.html", todos=todos)
+
+@bp.route('/toggle', methods=('GET', 'POST'))
+def toggle():
+    """Endpoint for toggling list items; redirect to index"""
     if request.method == 'POST':
         with db.get_db() as con:
             with con.cursor() as cur:
@@ -24,10 +34,4 @@ def index():
                         WHERE id = %s
                     """, (False if toggle else True, request.form[item]))
 
-
-    cur = db.get_db().cursor()
-    cur.execute('SELECT * FROM todos')
-    todos = cur.fetchall()
-    cur.close()
-
-    return render_template("index.html", todos=todos)
+    return redirect(url_for('todos.index'))

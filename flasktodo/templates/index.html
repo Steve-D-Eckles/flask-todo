@@ -3,7 +3,7 @@
 {% block content %}
   <h1>A simple to-do application</h1>
 
-  <form method="post">
+  <form action="{{ url_for('todos.toggle') }}" method="post">
     <ul>
       {% for todo in todos %}
         <li class="{{ "completed" if todo['completed'] }}">
