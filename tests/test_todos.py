@@ -25,3 +25,12 @@ def test_toggle(client):
     # Number of completed items on index page should be incremented
     response = client.get('/')
     assert response.data.count(b'<li class="completed">') == 2
+
+def test_remove(client):
+    # Clicking remove button should post to remove endpoint and redirect to index
+    response = client.post('/remove', data={'1', '1'})
+    assert 'http://localhost/' == response.headers['Location']
+
+    # 'clean room' task should have been removed
+    response = client.get('/')
+    assert b'clean room' not in response.data
