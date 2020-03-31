@@ -1,5 +1,4 @@
 from flask import Blueprint, g, redirect, render_template, session, request, url_for
-
 from . import db
 from flasktodo.auth import login_required
 
@@ -57,6 +56,7 @@ def new():
     """Endpoint for filtering list items; redirect to index"""
     if request.method == 'POST':
         newitem = request.form['new-item']
+        print(newitem)
         with db.get_db() as con:
             with con.cursor() as cur:
                 cur.execute("INSERT INTO todos (description, completed, created_at, user_id) VALUES (%s, %s, NOW(), %s)",
@@ -79,3 +79,38 @@ def remove():
                     """, (request.form[item],))
 
     return redirect(url_for('todos.index'))
+
+@bp.route('/edit', methods=('GET', 'POST'))
+def edit():
+    """Endpoint for edit list items"""
+    if request.method == 'POST':
+        edit_item = []
+        cur = db.get_db().cursor()
+        for item in request.form:
+                cur.execute("""
+                    SELECT * FROM todos
+                        WHERE id = %s
+                """, (request.form[item],))
+                edit_item.append(cur.fetchone())
+
+    #if request.method == 'POST':
+        
+        #for item in request.form:
+            #print(item)
+            #cur.execute("""
+                #UPDATE todos
+                #SET description = %s
+                #""", (request.form['item']))
+
+
+
+    #todos = cur.fetchall()
+    print(edit_item)
+    cur.close()
+
+    
+
+    return render_template("edit.html", todos=edit_item)
+
+
+
