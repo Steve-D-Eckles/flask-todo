@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <nav>
+    <ul>
+      {% if not g.user %}
+        <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+        <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+      {% else %}
+        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
   <h1>A simple to-do application</h1>
 
   <form method="post">
