@@ -12,6 +12,7 @@
       {% endfor %}
     </ul>
     <button type="submit">Toggle Completed</button>
+    <button type="submit" formaction="{{ url_for('todos.remove') }}">Removed Selected</button>
   </form>
 
     <form method="post">

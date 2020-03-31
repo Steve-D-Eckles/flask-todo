@@ -42,3 +42,17 @@ def toggle():
                     """, (False if toggle else True, request.form[item]))
 
     return redirect(url_for('todos.index'))
+
+@bp.route('/remove', methods=('GET', 'POST'))
+def remove():
+    """Endpoint for removing list items; redirect to index"""
+    if request.method == 'POST':
+        with db.get_db() as con:
+            with con.cursor() as cur:
+                for item in request.form:
+                    cur.execute("""
+                        DELETE FROM todos
+                        WHERE id = %s
+                    """, (request.form[item],))
+
+    return redirect(url_for('todos.index'))

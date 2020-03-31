@@ -28,7 +28,7 @@ def test_toggle(client):
 
 def test_remove(client):
     # Clicking remove button should post to remove endpoint and redirect to index
-    response = client.post('/remove', data={'1', '1'})
+    response = client.post('/remove', data={'1': '1'})
     assert 'http://localhost/' == response.headers['Location']
 
     # 'clean room' task should have been removed
