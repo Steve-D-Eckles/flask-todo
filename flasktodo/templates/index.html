@@ -3,6 +3,12 @@
 {% block content %}
   <h1>A simple to-do application</h1>
 
+  <form method="post">
+      <button name="filter" value="all" type="submit">All</button>
+      <button name="filter" value="completed" type="submit">Completed</button>
+      <button name="filter" value="uncompleted" type="submit">Uncompleted</button>
+  </form>
+
   <form action="{{ url_for('todos.toggle') }}" method="post">
     <ul>
       {% for todo in todos %}
@@ -14,9 +20,10 @@
     <button type="submit">Toggle Completed</button>
   </form>
 
-    <form method="post">
+  <form action="{{ url_for('todos.new') }}" method="post">
       <label for="new-item">New Item</label>
       <input type="text" value="" name="new-item" id="new-item"/>
       <input type="submit" value="submit">
-    </form>
+  </form>
+
 {% endblock %}
