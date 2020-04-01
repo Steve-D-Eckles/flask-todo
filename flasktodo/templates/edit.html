@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block title %}Login | My To-Dos{% endblock %}
+
+{% block header %}
   <h1>Edit Items</h1>
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('todos.index') }}">Home</a></li>
+    </ul>
+  </nav>
+{% endblock %}
+
+{% block content %}
 
   <form method="post" action="{{ url_for('todos.submit') }}">
     <ul>
