@@ -59,7 +59,7 @@ def login():
         if user is None:
             error = 'Incorrect username or password.'
         elif not check_password_hash(user['password'], password):
-            error = 'Incorrect username or password'
+            error = 'Incorrect username or password.'
 
         if error is None:
             session.clear()
