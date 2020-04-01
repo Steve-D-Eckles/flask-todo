@@ -33,3 +33,39 @@ div.flash {
   padding: 0.3rem 0.5rem;
   font-size: 0.75rem;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+nav {
+  width: 35%
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  color: #c5eff7;
+  padding: 0.2rem 0;
+}
+
+nav ul li {
+  margin: 0;
+
+}
+
+nav ul a {
+  padding: 0.2rem;
+  border-right: 1px solid #c5eff7;
+  border-bottom: 1px solid #c5eff7;
+}
+
+nav ul a:hover {
+  background-color: #2d335f;
+  color: #cef8ff;
+}
