@@ -9,10 +9,14 @@
     <link rel="stylesheet" href="{{ url_for("static", filename="style.css") }}" type="text/css" />
   </head>
   <body>
+    <header>
+      {% block header %}
+      {% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
     {% block content %}
-      {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
-      {% endfor %}
     {% endblock %}
   </body>
 </html>

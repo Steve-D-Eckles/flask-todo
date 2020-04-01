@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block title %}Register | My To-Dos{% endblock %}
+
+{% block header %}
   <h1>Sign Up!</h1>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('todos.index') }}">Home</a></li>
+      <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+    </ul>
+  </nav>
+{% endblock %}
+
+{% block content %}
   <form method="post">
     <label for="username">Username</label>
     <input name="username" id="username" required>

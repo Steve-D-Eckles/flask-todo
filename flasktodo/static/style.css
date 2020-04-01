@@ -10,7 +10,8 @@ html {
 }
 
 body {
-  color: #222222;
+  background-color: #4d4d4d;
+  color: #F2F1EF;
   display: flex;
   flex-direction: column;
   font-family: Helvetica, Arial, sans-serif;
@@ -25,3 +26,10 @@ li.completed {
   text-decoration: line-through;
 }
 
+div.flash {
+  background-color: aliceblue;
+  color: #2a2a2a;
+  width: 80%;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.75rem;
+}

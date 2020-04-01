@@ -1,41 +1,51 @@
 {% extends 'base.html' %}
 
+{% block header %}
+<h1>A simple to-do application</h1>
+
+<nav>
+  <ul>
+    {% if not g.user %}
+    <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+    <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+    {% else %}
+    <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% endblock %}
+
 {% block content %}
-  <nav>
-    <ul>
-      {% if not g.user %}
-        <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-        <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-      {% else %}
-        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-      {% endif %}
-    </ul>
-  </nav>
-
-  <h1>A simple to-do application</h1>
-
-  <form method="post">
+  {% if g.user %}
+    <form method="post">
       <button name="filter" value="all" type="submit">All</button>
       <button name="filter" value="completed" type="submit">Completed</button>
       <button name="filter" value="uncompleted" type="submit">Uncompleted</button>
-  </form>
+    </form>
+    {% if todos %}
+      <form action="{{ url_for('todos.toggle') }}" method="post">
+        <ul>
+          {% for todo in todos %}
+          <li class="{{ "completed" if todo['completed'] }}">
+            {{ todo['description'] }}
+            <input type="checkbox" name="{{ todo['id'] }}" value="{{ todo['id'] }}"></li>
+          {% endfor %}
+        </ul>
+        <button type="submit">Toggle Completed</button>
+        <button type="submit" formaction="{{ url_for('todos.remove') }}">Removed Selected</button>
+      </form>
+    {% else %}
+      <p>Nothing here!</p>
+    {% endif %}
 
-  <form action="{{ url_for('todos.toggle') }}" method="post">
-    <ul>
-      {% for todo in todos %}
-        <li class="{{ "completed" if todo['completed'] }}">
-          {{ todo['description'] }}
-        <input type="checkbox" name="{{ todo['id'] }}" value="{{ todo['id'] }}"></li>
-      {% endfor %}
-    </ul>
-    <button type="submit">Toggle Completed</button>
-    <button type="submit" formaction="{{ url_for('todos.remove') }}">Removed Selected</button>
-  </form>
-
-  <form action="{{ url_for('todos.new') }}" method="post">
+    <form action="{{ url_for('todos.new') }}" method="post">
       <label for="new-item">New Item</label>
-      <input type="text" value="" name="new-item" id="new-item"/>
+      <input type="text" value="" name="new-item" id="new-item" />
       <input type="submit" value="submit">
-  </form>
-
+    </form>
+  {% else %}
+    <p><a href="{{ url_for('auth.login')}}">Log in</a> or <a href="url_for('auth.register')">Register</a>
+      to start tracking goals!</p>
+  {% endif%}
 {% endblock %}
