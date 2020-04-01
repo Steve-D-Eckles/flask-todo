@@ -93,24 +93,24 @@ def edit():
                 """, (request.form[item],))
                 edit_item.append(cur.fetchone())
 
-    #if request.method == 'POST':
-        
-        #for item in request.form:
-            #print(item)
-            #cur.execute("""
-                #UPDATE todos
-                #SET description = %s
-                #""", (request.form['item']))
+    return render_template("edit.html", todos=edit_item)
 
+@bp.route('/edit/submit', methods=('GET', 'POST'))
+def submit():
+    if request.method == 'POST':
+        with db.get_db() as con:
+            with con.cursor() as cur:
+                for item in request.form:
+                    cur.execute("""
+                        UPDATE todos
+                        SET description = %s
+                        WHERE id = %s
+                        """, (request.form[item], item))
 
-
-    #todos = cur.fetchall()
-    print(edit_item)
-    cur.close()
+    return redirect(url_for('todos.index'))
 
     
 
-    return render_template("edit.html", todos=edit_item)
 
 
 

@@ -57,3 +57,21 @@ def test_filter(client, auth):
     # Show that the data only has completed items
     assert response.data.count(b'<li class="completed">') == 1
     assert response.data.count(b'<li class="">') == 0
+
+def test_edit(client, auth):
+    auth.login()
+    
+    # 'clean room' task should be sent to the edit page
+    response = client.post('/edit', data={'1': '1'})
+    assert b'clean room' in response.data
+
+    # Should be able to edit the first task
+    response = client.post('/edit/submit', data={'1': 'Clean bedroom'})
+
+    # User should be redirected to index after edit is submitted
+    assert 'http://localhost/' == response.headers['Location']
+    
+    # 'Clean room' should be changed to 'Clean bedroom'
+    response = client.get('/')
+    assert b'Clean bedroom' in response.data
+    assert b'Clean room' not in response.data
