@@ -81,6 +81,7 @@ def remove():
     return redirect(url_for('todos.index'))
 
 @bp.route('/edit', methods=('GET', 'POST'))
+@login_required
 def edit():
     """Endpoint for edit list items"""
     if request.method == 'POST':
@@ -96,7 +97,9 @@ def edit():
     return render_template("edit.html", todos=edit_item)
 
 @bp.route('/edit/submit', methods=('GET', 'POST'))
+@login_required
 def submit():
+    """Endpoint for editing list items; redirect to index"""
     if request.method == 'POST':
         with db.get_db() as con:
             with con.cursor() as cur:
