@@ -23,17 +23,18 @@
       <button name="filter" value="completed" type="submit">Completed</button>
       <button name="filter" value="uncompleted" type="submit">Uncompleted</button>
     </form>
-    {% if todos %}
+    {% if todo %}
       <form action="{{ url_for('todos.toggle') }}" method="post">
         <ul>
           {% for todo in todos %}
-          <li class="{{ "completed" if todo['completed'] }}">
-            {{ todo['description'] }}
+            <li class="{{ "completed" if todo['completed'] }}">
+              {{ todo['description'] }}
             <input type="checkbox" name="{{ todo['id'] }}" value="{{ todo['id'] }}"></li>
           {% endfor %}
         </ul>
         <button type="submit">Toggle Completed</button>
         <button type="submit" formaction="{{ url_for('todos.remove') }}">Removed Selected</button>
+        <button type="submit" formaction="{{ url_for('todos.edit') }}">Edit Selected</button>
       </form>
     {% else %}
       <p>Nothing here!</p>
