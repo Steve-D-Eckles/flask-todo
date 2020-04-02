@@ -18,11 +18,19 @@ def index():
         cur = db.get_db().cursor()
 
         if not session.get('filter') or session.get('filter') == 'all':
-            cur.execute('SELECT * FROM todos WHERE user_id = %s', (g.user['id'],))
+            cur.execute("""
+            SELECT * FROM todos
+            WHERE user_id = %s
+            ORDER BY completed
+            """, (g.user['id'],))
         elif session['filter'] == 'completed':
-            cur.execute('SELECT * FROM todos WHERE completed = true AND user_id = %s', (g.user['id'],))
+            cur.execute("""SELECT * FROM todos
+            WHERE completed = true AND user_id = %s
+            """, (g.user['id'],))
         else:
-            cur.execute('SELECT * FROM todos WHERE completed = false AND user_id = %s', (g.user['id'],))
+            cur.execute("""SELECT * FROM todos
+            WHERE completed = false AND user_id = %s
+            """, (g.user['id'],))
 
         todos = cur.fetchall()
         cur.close()
@@ -99,7 +107,7 @@ def edit():
 @bp.route('/edit/submit', methods=('GET', 'POST'))
 @login_required
 def submit():
-    """Endpoint for editing list items; redirect to index"""
+    """Endpoint for submitting edited changes; redirect to index"""
     if request.method == 'POST':
         with db.get_db() as con:
             with con.cursor() as cur:
@@ -111,9 +119,3 @@ def submit():
                         """, (request.form[item], item))
 
     return redirect(url_for('todos.index'))
-
-    
-
-
-
-

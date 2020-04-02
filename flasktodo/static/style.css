@@ -22,7 +22,7 @@ body {
 }
 
 li.completed {
-  color: #666666;
+  color: #1bbc9b;
   text-decoration: line-through;
 }
 
@@ -68,4 +68,8 @@ nav ul a {
 nav ul a:hover {
   background-color: #2d335f;
   color: #cef8ff;
+}
+
+.auth {
+  margin: 1rem;
 }
